@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.core.dao.CustomerDao" >
+    <!-- 查询客户列表sql片段 -->
+     <sql id="selectCustomerListWhere">
+     	<where>
+     		<if test="cust_name != null">
+     			cust_name like "%"#{cust_name}"%"
+     		</if>
+     		<if test="cust_source != null">
+     			cust_name = #{cust_name} 
+     		</if>
+     		<if test="cust_industry != null">
+     			cust_name = #{cust_industry} 
+     		</if>
+     		<if test="cust_level != null">
+     			cust_name = #{cust_level} 
+     		</if>
+     	</where>
+     </sql>
+     <select id="selectCuctomerList" parameterType="customer" resultType="customer">
+     	select * from customer a
+     	<include refid="selectCustomerListWhere"/>
+     	<if test="start!=null and rows!=null">
+     		limit #{start},#{rows}
+     	</if>
+     </select>
+     <select id="select CustomerListCount" parameterType="customer" resultType="Integer">
+     	select count() from customer <include refid="selectCustomerListWhere"/>
+     </select>
+</mapper>
